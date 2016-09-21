@@ -1,0 +1,44 @@
+Files and functions:
+===================
+hw1_p1.m                Main file that runs the code for Problem 1
+
+hw1_p2.m                Main file that runs the code for Problem 2
+    |-> hw1_p2()
+    |-> sel_prototype() Function for prototype selection using K-means
+
+classify_1n.m           Given a training set and a test set, it predicts the 
+                        test labels using 1-NN algorithm
+test_error_rate.m       Given the predicted labels and the correct labels, it 
+                        returns the error rate in %
+
+Problem 1:
+=========
+Error rates in % have been plotted against the size of the training data sample 
+used after random selection. The plot is in the file 'hw1_p2.jpg'
+
+Problem 2:
+=========
+1. Description:
+   For prototype selection, it would beneficial to combine similar datapoints 
+   and have a representative of each of these combination in the smaller
+   training data. To do this, we can use techniques like K-means or meanshift to
+   find the representative points. While meanshift is more reliable, it is more
+   complex and can select arbitrary number of data points. For this problem, I 
+   have used K-Means to find 1000 clusters from the set of 60,000 data points 
+   where the centroid becomes the representative data points of each cluster.
+   The label for this centroid is assigned as the label which gets majority 
+   votes in the cluster.
+
+2. Pseudocode:
+   - For the given set of data, divide the data into m clusters using K-means 
+     cluster algorithm.
+   - Use the cluster centers as new data points. The labels for each cluster 
+     center is taken from the label which gets the majority vote in the cluster 
+     of known data points. This becomes the prototype selected set.
+
+3. Test error rates:
+   ------------------------------------------------
+   | m                | 1000 | 2000 | 4000 | 8000 |
+   ------------------------------------------------
+   | Error rates in % |
+   ------------------------------------------------
