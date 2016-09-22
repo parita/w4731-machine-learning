@@ -1,0 +1,72 @@
+\documentclass[fleqn]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{algorithm}
+
+\title{Machine Learning - Homework 1}
+\author{Parita Pooj (psp2133)}
+\date{September 21, 2016}
+
+\newcommand\tab[1][0.6cm]{\hspace*{#1}}
+
+\begin{document}
+\maketitle
+\setcounter{secnumdepth}{0}
+\section{Problem 1}
+Code provided in the zip folder with the plot for Learning Curve.
+\section{Problem 2}
+\begin{itemize}
+\item[(a)] \textbf{Description:}\\ 
+        For prototype selection, it would beneficial to combine similar datapoints 
+        and have a representative of each of these combination in the smaller
+        training data. To do this, we can use techniques like K-means or meanshift to
+        find the representative points. While meanshift is more reliable, it is more
+        complex and can select arbitrary number of data points. For this problem, I 
+        have used K-Means to find 1000 clusters from the set of 60,000 data points 
+        where the centroid becomes the representative data points of each cluster.
+        The label for this centroid is assigned as the label which gets majority 
+        votes in the cluster.
+        The K-means function for MATLAB is included in the zip, and it is the
+        implementation by Tim Benham for Fast K-means algorithm.
+\item[(b)] \textbf{Pseudocode:}\\
+        \begin{algorithm}
+        1. Load from ocr matrix\\
+        2. Divide the data points into 10 sets $D_l \in D$  based on their labels where each label, $l \in {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}$\\
+        3. Run K-means[1] clustering algorithm on each set,\\
+        \textit{cluster labels, cluster centers} $\gets$ kmeans(data, $m/10$)
+        to form $m/10$ clusters\\
+        4. For each cluster center, find the majority label of the cluster of data points.\\
+        5. New trainind data and labels is combined from cluster centers and majority labels from each $D_l$\\
+        ${ndata, nlabels}$ $\gets \cup_{D_l \in D}$ cluster centers, majority label\\
+        \end{algorithm}
+\item[(c)] \textbf{Test Error Rates:}\\
+        \begin{tabular}{ |c|c|c|c|c|} 
+        \hline
+        $\boldsymbol{m}$ & 1000 & 2000 & 4000 & 8000 \\
+        \hline
+        \textbf{Error Rates in \%} & 4.08 & 3.95 & 3.29 & 2.89 \\ 
+        \hline
+        \end{tabular}
+\end{itemize}
+\section{Problem 3}
+\begin{itemize}
+        \item[(a)] 
+                Let the Probability of picking two balls of different color from
+                the urn with replacement be P. \\
+                Let $P_c$ = P(ball 2 is not of color c \big| ball 1 is of color c)\\
+                $P = \smashoperator{\sum_{c \in C}} P_c$\\
+                Since, $P_c = \frac{(n_c)(100 - n_c)}{n}$\\
+                $P = \smashoperator{\sum_{c \in C}} \frac{(n_c)(100 - n_c)}{n}$
+        \item[(b)]
+                We want to maximize P given that $\smashoperator{\sum_{c \in C}} n_c = 100$\\
+                For each $n_c$, $\frac{\partial (P + \lambda(100 - n_c))}{\partial n_c} = 0$\\
+                We get the similar equations for all $n_c$, which gives us:\\
+                $n_r = n_o = n_y = n_g = n_b$\\
+                Thus, probability will be maximum when we have equal number of balls for every color. \\
+                For $n = 100$, $n_c = 20$ for all $c \in C$
+\end{itemize}
+\begin{thebibliography}{99}
+        \bibitem{none} fkmeans MATLAB function, https://www.mathworks.com/matlabcentral/fileexchange/31274-fast-k-means
+\end{thebibliography}
+\end{document}

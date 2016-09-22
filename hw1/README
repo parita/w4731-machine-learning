@@ -1,5 +1,7 @@
 Files and functions:
 ===================
+run_hw1.m               Runs both Problem 1 and Problem 2
+
 hw1_p1.m                Main file that runs the code for Problem 1
 
 hw1_p2.m                Main file that runs the code for Problem 2
@@ -11,10 +13,12 @@ classify_1n.m           Given a training set and a test set, it predicts the
 test_error_rate.m       Given the predicted labels and the correct labels, it 
                         returns the error rate in %
 
+fkmeans.m               MATLAB function written by Tim Benham for Fast K-Means[1]
+
 Problem 1:
 =========
 Error rates in % have been plotted against the size of the training data sample 
-used after random selection. The plot is in the file 'hw1_p2.jpg'
+used after random selection. The plot is in the file 'hw1_p1.jpg'
 
 Problem 2:
 =========
@@ -28,17 +32,28 @@ Problem 2:
    where the centroid becomes the representative data points of each cluster.
    The label for this centroid is assigned as the label which gets majority 
    votes in the cluster.
+   The K-means function for MATLAB is included in the zip, and it is the
+   implementation by Tim Benham for Fast K-means algorithm.
 
 2. Pseudocode:
-   - For the given set of data, divide the data into m clusters using K-means 
-     cluster algorithm.
-   - Use the cluster centers as new data points. The labels for each cluster 
-     center is taken from the label which gets the majority vote in the cluster 
-     of known data points. This becomes the prototype selected set.
+   - For the given set of data, divide the data into 10 sets, each for a label
+     (digits 0-9 in this example).
+   - For each set of data points, run K-means[1] clustering algorithm to find the
+     cluster center.
+   - For each cluster, find the mode of the labels of the data points in the 
+     cluster. 
+   - Assign this mode to the respective cluster center.
+   - The cluster center with their newly assigned label becomes the prototype 
+     selected set.
 
 3. Test error rates:
-   ------------------------------------------------
-   | m                | 1000 | 2000 | 4000 | 8000 |
-   ------------------------------------------------
-   | Error rates in % |
-   ------------------------------------------------
+   --------------------------------------------------------
+   |         m        |  1000  |  2000  |  4000  |  8000  |
+   |------------------|--------|--------|--------|--------|
+   | Error rates in % | 4.0800 | 3.9500 | 3.2900 | 2.8900 |
+   --------------------------------------------------------
+
+References:
+==========
+[1] fkmeans MATLAB function, https://www.mathworks.com/matlabcentral/fileexchange/31274-fast-k-means
+

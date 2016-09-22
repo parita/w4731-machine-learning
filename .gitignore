@@ -1,5 +1,7 @@
 **/*.swp
 **/*.mat
+**/*.aux
+**/*.log
 
 hw0/*.vocab
 hw0/*.groups
