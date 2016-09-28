@@ -1,0 +1,113 @@
+\documentclass[fleqn]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{dsfont}
+\usepackage{mathtools}
+\usepackage{algorithm}
+\usepackage{fontspec}
+\usepackage{url}
+
+\title{Machine Learning - Homework 2}
+\author{Parita Pooj (psp2133)}
+\date{September 28, 2016}
+
+\newcommand\tab[1][0.6cm]{\hspace*{#1}}
+
+\begin{document}
+\maketitle
+\setcounter{secnumdepth}{0}
+\section{Problem 1}{}
+\begin{itemize}
+        \item[(a)]
+                $\mu_{y, j} = \smashoperator{\sum_{i = 1}^{n}} \frac{\mathds{1}\{y_i = y\} x_{i, j}}{n}$
+        \item[(b)]
+                Source code: hw2\_p1b.m\\
+                Training Error Rate: 21.6257\%\\
+                Test Error Rate: 37.6016\%\\
+                Running Time: ~30 secs
+        \item[(c)]
+                Source Code: hw2\_p1c.m\\
+                Training Error Rate: 5.7794\%\\
+                Test Error Rate: 13.1383\%\\
+                Running Time: ~1.15 secs
+        \item[(d)]
+                Source Code: hw2\_p1d.m\\
+                $\alpha_0$ = -20.7849\\
+                \textbf{20 most positive words (corresponding to 20 largest values of $\alpha_j$)}\\
+                1: 'firearms'\\
+                2: 'occupied'\\
+                3: 'israelis'\\
+                4: 'serdar'\\
+                5: 'argic'\\
+                6: 'ohanus'\\
+                7: 'appressian'\\
+                8: 'sahak'\\
+                9: 'melkonian'\\
+                10: 'villages'\\
+                11: 'cramer'\\
+                12: 'armenia'\\
+                13: 'cpr'\\
+                14: 'sdpa'\\
+                15: 'handgun'\\
+                16: 'optilink'\\
+                17:'palestine'\\
+                18: 'firearm'\\
+                19: 'budget'\\
+                20: 'arabs'\\
+
+                \textbf{20 most negative words (corresponding to 20 smallest values of $\alpha_j$)}\\
+                1: 'athos'\\
+                2: 'atheism'\\
+                3: 'atheists'\\
+                4: 'clh'\\
+                5: 'teachings'\\
+                6: 'revelation'\\
+                7: 'testament'\\
+                8: 'livesey'\\
+                9: 'atheist'\\
+                10: 'wpd'\\
+                11: 'solntze'\\
+                12: 'scriptures'\\
+                13: 'theology'\\
+                14: 'believers'\\
+                15: 'ksand'\\
+                16: 'alink'\\
+                17: 'benedikt'\\
+                18: 'jesus'\\
+                19: 'prophet'\\
+                20: 'mozumder'\\
+\end{itemize}
+\section{Problem 2}{}
+\begin{itemize}
+        \item[(a)] Not done yet
+        \item[(b)] Not done yet
+\end{itemize}
+\section{Problem 3}{}
+\begin{itemize}
+        \item[(a)]
+                Covariance matrix can be written as:\\
+                $\Sigma = U \Lambda U^T$ where $U$ is orthonormal\\
+                Thus, $\Sigma + \sigma^2 I = U \Lambda U^T + \sigma^2 U U^T$\\
+                $\Sigma + \sigma^2 I = U (\Lambda + \sigma^2 I) U^T$\\
+                Thus, the eigenvalues of $\Sigma + \sigma^2I$ are \\
+                \[
+                \lambda_1 + \sigma^2, \lambda_2 + \sigma^2, \dots, 
+                \lambda_d + \sigma^2
+                \]
+        \item[(b)]
+                Similarly, we get the eigenvalues of $(\Sigma + \sigma^2I)^{-2}$
+                as \\
+                \[
+                        (\lambda_1 + \sigma^2)^{-2}, (\lambda_2 + \sigma^2)^{-2}
+                        ,\dots, (\lambda_d + \sigma^2)^{-2}
+                \]\\
+\end{itemize}
+
+\begin{thebibliography}{99}
+        \bibitem{[1]} \url{https://www.cs.ubc.ca/~murphyk/Teaching/Stat406-Spring08/Lectures/linalg1.pdf}
+        \bibitem{[2]} \url{http://cs229.stanford.edu/section/gaussians.pdf}
+        \bibitem{[3]} \url{https://ocw.mit.edu/courses/mathematics/18-06sc-linear-algebra-fall-2011/least-squares-determinants-and-eigenvalues/diagonalization-and-powers-of-a/MIT18_06SCF11_Ses2.9sum.pdf}
+
+\end{thebibliography}
+\end{document}
