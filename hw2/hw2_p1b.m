@@ -2,9 +2,9 @@ function [training_error_rate, test_error_rate, pi_y, mu_y] = ...
                                 hw2_p1b(data, labels, testdata, testlabels)
         [pi_y, mu_y] = get_laplace_params(data, labels);
         preds = classify(data, mu_y, pi_y);
-        training_error_rate = get_error_rate(preds, labels)
+        training_error_rate = get_error_rate(preds, labels);
         preds = classify(testdata, mu_y, pi_y);
-        test_error_rate = get_error_rate(preds, testlabels)
+        test_error_rate = get_error_rate(preds, testlabels);
         clear preds
 end
 
@@ -32,8 +32,8 @@ end
 
 function preds = classify(testdata, mu_y, pi_y)
         log_pi_y = repmat(log(pi_y), 1, size(testdata, 1));
-        g = log_pi_y + log(mu_y)*testdata' + log(1 - mu_y)*(1 - testdata)';
-        [~, preds] = max(g);
+        % g = log_pi_y + log(mu_y)*testdata' + log(1 - mu_y)*(1 - testdata)';
+        [~, preds] = max(log_pi_y + log(mu_y)*testdata' + log(1 - mu_y)*(1 - testdata)');
         clear log_pi_y g;
         preds = preds';
 end

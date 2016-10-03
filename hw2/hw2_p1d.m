@@ -1,4 +1,4 @@
-function [alpha0, pos, neg] = hw2_p1d(data, labels, testdata, testlabels)
+function [alpha0, pos, neg] = hw2_p1d()
         load('new_binary_news.mat');
         [training_error_rate, test_error_rate, pi_y, mu_y] = hw2_p1b(ndata, nlabels, ntestdata, ntestlabels);
         [alpha0, alpha] = get_alpha(pi_y, mu_y);

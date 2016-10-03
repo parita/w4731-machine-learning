@@ -20,7 +20,7 @@
 \section{Problem 1}{}
 \begin{itemize}
         \item[(a)]
-                $\mu_{y, j} = \smashoperator{\sum_{i = 1}^{n}} \frac{\mathds{1}\{y_i = y\} x_{i, j}}{n}$
+                $\mu_{y, j} = \smashoperator{\sum_{i = 1}^{n}} \frac{\mathds{1}\{y_i = y\} x_{i, j}}{\mathds{1}\{y_i = y\}}$
         \item[(b)]
                 Source code: hw2\_p1b.m\\
                 Training Error Rate: 21.6257\%\\
@@ -80,8 +80,18 @@
 \end{itemize}
 \section{Problem 2}{}
 \begin{itemize}
-        \item[(a)] Not done yet
-        \item[(b)] Not done yet
+	\item[(a)] The classifier $f^*$ predicts 1 when $c \frac{2}{3}N(0,1) \leq \frac{1}{3}N(2, \frac{1}{4})$\\
+		Thus, the range in which $f^*$ predicts 1 can be given by the roots of:\\
+		$c \frac{2}{3}N(0,1) = \frac{1}{3}N(2, \frac{1}{4})$\\
+		Thus, we get the quadratic equation\\
+		$3x^2 - 16x + 16 + 2log(c) = 0$\\
+		which give the roots:\\
+		\[ x = \frac{16 \pm \sqrt{256 - 12(16 + 2log(c))}}{6} \]
+		For $1 \leq c \leq 14$,\\
+		$f^*$ predicts 1 when $x$ is in the interval $[\frac{16 - \sqrt{256 + 12(16 + 2log(c))}}{6}, \frac{16 + \sqrt{256 + 12(16 + 2log(c))}}{6}]$\\
+
+        \item[(b)] 
+		For $c \geq 15$, the roots are imaginary i.e. they don't exist. Thus, the classifier will always predict 0.\\
 \end{itemize}
 \section{Problem 3}{}
 \begin{itemize}
