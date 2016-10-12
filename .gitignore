@@ -6,6 +6,8 @@
 **/*.groups
 **/*.txt
 **/*.csv
+**/*.npy
+**/*.pyc
 
 hw0/Linear\ Algebra\ and\ Linear\ Systems
 hw0/Probability
