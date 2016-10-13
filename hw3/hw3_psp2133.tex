@@ -21,8 +21,8 @@
 \section{Problem 1}{}
 \begin{itemize}
         \item[(a)]
-		\textbf{Centering}: No, the transformation does not affect the learning algorithm.
-		Centering will basically make the mean $\bm{\hat{\mu}}$. This can be shown as below:\\
+		\textbf{Centering}: (No) The transformation does not affect the learning algorithm.
+		Centering will basically make the mean zero. This can be shown as below:\\
 		Let $\bm{\hat{\mu}'}$ be the new mean parameter trained on the transformed data.
 		$ \bm{\hat{\mu}'} = \frac{1}{n} \smashoperator{\sum_{i = 0}^{n}} (\bm{x} - \bm{\hat{\mu}})$ \\
 		$ \bm{\hat{\mu}'} = \frac{1}{n} \smashoperator{\sum_{i = 0}^{n}} \bm{x} 
@@ -31,10 +31,11 @@
 		$ \bm{\hat{\mu}'} = 0 $\\
 		Thus, centering essentially transforms the mean to zero, but the distribution still remains the same and hence, the classification won't be affected.\\
 		\\
-		\textbf{Standardization}: No, standardization does not affect the learning algorithm.
+		\textbf{Standardization}: (No) Standardization does not affect the learning algorithm.
 		Standardization makes the standard deviation 1 for each feature, thus not affecting the classification, same as above.\\
+
         \item[(b)]
-		\textbf{Centering}: No, Centering preserves the order of the Euclidean distance between every pair of points.
+		\textbf{Centering}: (No) Centering preserves the order of the Euclidean distance between every pair of points.
 		Hence, 1-NN classifier will not be affected.\\
 		The preservation of the order of distances can be shown by considering three points $\bm{x_p}$, $\bm{x_q}$ and $\bm{x_r}$ such that:\\
 		$ \smashoperator{\sum_{i = 1}^{n}} (x_{p,i} - x_{q, i})^2 \leq \smashoperator{\sum_{i = 1}^{n}} (x_{p,i} - x_{r, i})^2 $\\
@@ -44,31 +45,55 @@
 		$ \smashoperator{\sum_{i = 1}^{n}} (x_{p,i} - \hat{\mu}_i - x_{q, i} + \hat{\mu}_i)^2 
 			\leq \smashoperator{\sum_{i = 1}^{n}} (x_{p,i} - \hat{\mu}_i - x_{r, i} + \hat{\mu}_i)^2$ \\
 
-		\textbf{Standardization}: No, standardization also doesn't affect the learning algorithm since it preserves the order.
+		\textbf{Standardization}: (No) Standardization also doesn't affect the learning algorithm since it preserves the order.
 		As above, for transformed points, $\bm{x_p'}$, $\bm{x_q'}$ and $\bm{x_r'}$ we see that \\
 		$ \smashoperator{\sum_{i = 1}^{n}} (x_{p,i}' - x_{q, i}')^2 \leq \smashoperator{\sum_{i = 1}^{n}} (x_{p,i}' - x_{r, i}')^2 $\\
 		since, \\
 		$ \smashoperator{\sum_{i = 1}^{n}} (\frac{x_{p,i} - \hat{\mu}_i - x_{q, i} + \hat{\mu}_i}{\sigma_i})^2 
 			\leq \smashoperator{\sum_{i = 1}^{n}} (\frac{x_{p,i} - \hat{\mu}_i - x_{r, i} + \hat{\mu}_i}{\sigma_i})^2$ \\
 
-
         \item[(c)]
-		\textbf{Centering}: No, the transformation does not affect the learning algorithm.
+		\textbf{Centering}: (No) The transformation does not affect the learning algorithm.
 		The Gini Index uncertainty measure considers the probability distribution of the points with respect to the axis split.\\
-		Centering essentially doesn't affect the algorithm because the axis split undergoes an equivalend transformation, 
+		Centering essentially doesn't affect the algorithm because the axis split undergoes an equivalent transformation, 
 		preserving the distribution with respect to the split. Due to this, the classification still remains the same.\\
 		This can be shown with a simple example for feature $i$. Let $x_i > c$ be one of the axis splits, 
-		which classifies some data points $x_p$, $x_q$, $x_r$, $x_s$ as below:\\
-		$x_{p, i} < x_{q, i} < c < x_{r, i} < x_{s, i}$ for feature $i$\\
+		which classifies some data points $\bm{x_p}$, $\bm{x_q}$, $\bm{x_r}$, $\bm{x_s}$ as below:\\
+		$x_{p, i} < x_{q, i} < c < x_{r, i} < x_{s, i}$ for feature $i$,\\
+		where the first two points are in the left tree and the last two in the right tree.\\
 		For the transformed data, $x_i - \mu_i > c$ or $x_i > c + \mu_i$ corresponds to the transformed axis 
-		which preserves the classification since it preserves the inequality.
+		which preserves the classification since it preserves the inequality.\\
+		Thus, the transformed axis split corresponds to the same distribution and hence, the same Gini Index uncertainty measure.\\
 
-		\textbf{Standardization}: No, the transformation does not affect the learning algorithm. 
+		\textbf{Standardization}: (No) The transformation does not affect the learning algorithm. 
 		From above, we can see that dividing by $\sigma_i$ preserves the inequality.
 		Thus, the distribution for classification remains the same since the particular axis split 
-		will give the same Gini Index uncertainty measure which corresponds to the maximally reduced uncertainty.
+		will give the same Gini Index uncertainty measure which corresponds to the maximally reduced uncertainty.\\
 
         \item[(d)]
+		\textbf{Centering}: (Yes) Centering does affect the learning algorithm.
+		For the intractable ERM linear classifier, we update the weights and threshold till we obtain a perfect linear classifier.
+		For the transformed data, the final weight vector should be transformed by the same amount when the learning algorithm
+		is run on the transformed data. \\
+		If the weight vector for $\hat{f_S}: \mathcal{X} \rightarrow \mathcal{Y}$ 
+		is $\bm{\hat{w}}$ and threshold is $\hat{t}$, then with $\phi: \mathcal{X} \rightarrow \mathcal{X'}$ as the transformation, \\
+		the weight vector for $\hat{f_S'}: \mathcal{X'} \rightarrow \mathcal{Y}$ 
+		must be $\bm{\hat{w}'} = \bm{\hat{w}} - \bm{\hat{\mu}}$ and threshold is $\hat{t}$
+		But, this is not guaranteed with the learning algorithm.
+		We may get the final weight vector $\bm{\hat{w}'} = \bm{\hat{w}} 
+						+ \smashoperator{\sum_{t = 1}^{n}} y_t \bm{\hat{\mu}}
+						+ \smashoperator{\sum_{j = 1}^{k}} y_j \bm{x_j} $\\
+		where the last term is determined based on the sequence in which the unclassified points are considered
+		and based on how many times they are considered. \\
+		Thus, if a linear classifier exists, even though the algorithm will find one that fits for the transformed data,
+		it may not be the same as what we get when running the algorithm on the original data.\\
+		Thus, the classification may not be the same.\\
+
+		\textbf{Standardization}: (Yes) Standardization affects the learning algorithm.
+		Similar to above, we can say that scaling the data further, i.e., standardization will not guarantee the
+		same weight vector and threshold are obtained for the transformed as we got for the original data.\\
+		Thus, the classification won't be the same.\\
+
 \end{itemize}
 \section{Problem 2}{}
 \begin{itemize}
