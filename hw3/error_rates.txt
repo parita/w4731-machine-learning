@@ -1,0 +1,11 @@
+Averaged Perceptron:
+===================
+1. Unigram Representation: 11.2845 %
+2. Term frequency-inverse document frequency (tf-idf) weighting: 12.4535 %
+3. Bigram Representation:
+4. Fourth Representation:
+  (i)	tf-idf = tf(w, d) x (ln(idf(w, D)) + 1): 12.5215 % 
+	for stop_words only specified by sklearn
+  (ii)  tf-tdf = tf(w, d) x (ln(idf(w, D)) + 1): 11.5385 %
+	for all words except one letter words	
+5. Naive Bayes: 18.1125 %

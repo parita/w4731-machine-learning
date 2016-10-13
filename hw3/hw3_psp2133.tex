@@ -1,0 +1,134 @@
+\documentclass[fleqn]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{dsfont}
+\usepackage{bm}
+\usepackage{mathtools}
+\usepackage{algorithm}
+\usepackage{fontspec}
+\usepackage{url}
+
+\title{Machine Learning - Homework 3}
+\author{Parita Pooj (psp2133)}
+\date{October 12, 2016}
+
+\newcommand\tab[1][0.6cm]{\hspace*{#1}}
+
+\begin{document}
+\maketitle
+\setcounter{secnumdepth}{0}
+\section{Problem 1}{}
+\begin{itemize}
+        \item[(a)]
+		\textbf{Centering}: No, the transformation does not affect the learning algorithm.
+		Centering will basically make the mean $\bm{\hat{\mu}}$. This can be shown as below:\\
+		Let $\bm{\hat{\mu}'}$ be the new mean parameter trained on the transformed data.
+		$ \bm{\hat{\mu}'} = \frac{1}{n} \smashoperator{\sum_{i = 0}^{n}} (\bm{x} - \bm{\hat{\mu}})$ \\
+		$ \bm{\hat{\mu}'} = \frac{1}{n} \smashoperator{\sum_{i = 0}^{n}} \bm{x} 
+		                  - \frac{1}{n} \smashoperator{\sum_{i = 0}^{n}} \bm{\hat{\mu}})$ \\
+		$ \bm{\hat{\mu}'} = \bm{\hat{\mu}} - \bm{\hat{\mu}} $ \\
+		$ \bm{\hat{\mu}'} = 0 $\\
+		Thus, centering essentially transforms the mean to zero, but the distribution still remains the same and hence, the classification won't be affected.\\
+		\\
+		\textbf{Standardization}: No, standardization does not affect the learning algorithm.
+		Standardization makes the standard deviation 1 for each feature, thus not affecting the classification, same as above.\\
+        \item[(b)]
+		\textbf{Centering}: No, Centering preserves the order of the Euclidean distance between every pair of points.
+		Hence, 1-NN classifier will not be affected.\\
+		The preservation of the order of distances can be shown by considering three points $\bm{x_p}$, $\bm{x_q}$ and $\bm{x_r}$ such that:\\
+		$ \smashoperator{\sum_{i = 1}^{n}} (x_{p,i} - x_{q, i})^2 \leq \smashoperator{\sum_{i = 1}^{n}} (x_{p,i} - x_{r, i})^2 $\\
+		For transformed points, $\bm{x_p'}$, $\bm{x_q'}$ and $\bm{x_r'}$ we see that \\
+		$ \smashoperator{\sum_{i = 1}^{n}} (x_{p,i}' - x_{q, i}')^2 \leq \smashoperator{\sum_{i = 1}^{n}} (x_{p,i}' - x_{r, i}')^2 $\\
+		since, \\
+		$ \smashoperator{\sum_{i = 1}^{n}} (x_{p,i} - \hat{\mu}_i - x_{q, i} + \hat{\mu}_i)^2 
+			\leq \smashoperator{\sum_{i = 1}^{n}} (x_{p,i} - \hat{\mu}_i - x_{r, i} + \hat{\mu}_i)^2$ \\
+        \item[(c)]
+        \item[(d)]
+\end{itemize}
+\section{Problem 2}{}
+\begin{itemize}
+	\item[(a)] 
+        \item[(b)] 
+\end{itemize}
+\section{Problem 3}{}
+\begin{itemize}
+        \item[(a)]
+		The multivariate Gaussian distribution can be written as:
+		\[
+			P_{\mu, \sigma^2} = \prod_{i = 1}^{n} \frac{1}{(2 \pi)^{d/2} |\Sigma|^{1/2}} e^{\frac{-1}{2} (\bm{x} - \bm{\mu})^T \Sigma^{-1} (\bm{x} - \bm{\mu}) }
+		\]
+		where $\Sigma = \sigma^2 I$
+		\[
+			\ln P_{\mu, \sigma^2} = 
+			\smashoperator{\sum_{i = 1}^{n}} 
+				\frac{-1}{2} \ln(2\pi) 
+				- \frac{1}{2} \ln(|\Sigma|) 
+				- \frac{1}{2} (\bm{x} - \bm{\mu})^T \Sigma^{-1} (\bm{x} - \bm{\mu})
+		\]
+		\[
+			\ln P_{\mu, \sigma^2} = 
+			- \frac{1}{2} \smashoperator{\sum_{i = 1}^{n}} 
+				\ln(2\pi) 
+				+ \ln(|\Sigma|) 
+				+ (\bm{x} - \bm{\mu})^T \Sigma^{-1} (\bm{x} - \bm{\mu})
+		\]
+		By matrix derivation rules[1],
+		\[
+			\frac{\partial \ln P_{\mu, \sigma^2}}{\partial \Sigma} = 
+			- \frac{1}{2} \smashoperator{\sum_{i = 1}^{n}} 
+				0 + |\Sigma|^{-T} 
+				+ (- \Sigma^{-T}(\bm{x} - \bm{\mu}) (\bm{x} - \bm{\mu}) \Sigma^{-T})
+		\]
+		\[
+			\frac{\partial \ln P_{\mu, \sigma^2}}{\partial \Sigma} = 0
+		\]
+		\[
+			- \frac{1}{2} \smashoperator{\sum_{i = 1}^{n}} 
+			[ |\Sigma|^{-T} 
+			- \Sigma^{-T}(\bm{x} - \bm{\mu}) (\bm{x} - \bm{\mu})^T \Sigma^{-T} ]
+			= 0
+		\]
+		Since, $\Sigma$ is a diagonal matrix: $\Sigma^{-T} = \Sigma^{-1}$
+		\[
+			\smashoperator{\sum_{i = 1}^{n}} 
+			[ |\Sigma|^{-1} 
+			- \Sigma^{-1}(\bm{x} - \bm{\mu}) (\bm{x} - \bm{\mu})^T \Sigma^{-1} ]
+			= 0
+		\]
+		\[
+			\smashoperator{\sum_{i = 1}^{n}} |\Sigma|^{-1} =
+			\smashoperator{\sum_{i = 1}^{n}} 
+			[ \Sigma^{-1}(\bm{x} - \bm{\mu}) (\bm{x} - \bm{\mu})^T \Sigma^{-1} ]
+		\]
+		\[
+			\smashoperator{\sum_{i = 1}^{n}} I =
+			\smashoperator{\sum_{i = 1}^{n}} 
+			[ (\bm{x} - \bm{\mu}) (\bm{x} - \bm{\mu})^T \Sigma^{-1} ]
+		\]
+		\[
+			nI =
+			\smashoperator{\sum_{i = 1}^{n}} [ (\bm{x} - \bm{\mu}) (\bm{x} - \bm{\mu})^T] \Sigma^{-1}
+		\]
+		\[
+			n\Sigma =
+			\smashoperator{\sum_{i = 1}^{n}} [ (\bm{x} - \bm{\mu}) (\bm{x} - \bm{\mu})^T ]
+		\]
+		\[
+			\Sigma = \frac{1}{n} \smashoperator{\sum_{i = 1}^{n}} [ (\bm{x} - \bm{\mu}) (\bm{x} - \bm{\mu})^T ]
+		\]
+		\[
+			\sigma^2 I = \frac{1}{n} \smashoperator{\sum_{i = 1}^{n}} [ (\bm{x} - \bm{\mu}) (\bm{x} - \bm{\mu})^T ]
+		\]
+ 		\[
+			\sigma^2 = \frac{1}{n} \smashoperator{\sum_{i = 1}^{n}} [\smashoperator{\sum_{j = 1}^{d}} (\bm{x_j} - \bm{\mu_j})^2]
+		\]
+        \item[(b)]
+\end{itemize}
+
+\begin{thebibliography}{99}
+        \bibitem{[1]} \url{https://www.math.uwaterloo.ca/~hwolkowi/matrixcookbook.pdf}
+        \bibitem{[2]} \url{http://cs229.stanford.edu/section/gaussians.pdf}
+
+\end{thebibliography}
+\end{document}
