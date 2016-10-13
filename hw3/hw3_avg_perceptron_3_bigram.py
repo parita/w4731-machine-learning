@@ -46,7 +46,7 @@ def cross_validate(data, labels, kfolds, n):
         W = online_perceptron_train(tf, labels[traincv], trsize, len(tokens))
         
         # Get error rate on test data
-        tf_test = unigram_tf_transform(data[testcv], vectorizer)
+        tf_test = bigram_tf_transform(data[testcv], vectorizer)
         err_fold = online_perceptron_test(tf_test, labels[testcv], W, sample) 
         print "Fold", ifold, "error rate:", err_fold, "%" 
         error_rate = error_rate + err_fold
@@ -110,7 +110,6 @@ if __name__ == "__main__":
     data = np.load('data.npy')
     labels = np.load('labels.npy')
     labels[labels == 0] = -1
-    # tf, tokens = unigram_tf(data[1:100])
     print "Cross-validating ..."
     # cross_validate(data[0:10], labels[0:10], 5, 10)
     cross_validate(data, labels, 5, 200000)
