@@ -43,7 +43,31 @@
 		since, \\
 		$ \smashoperator{\sum_{i = 1}^{n}} (x_{p,i} - \hat{\mu}_i - x_{q, i} + \hat{\mu}_i)^2 
 			\leq \smashoperator{\sum_{i = 1}^{n}} (x_{p,i} - \hat{\mu}_i - x_{r, i} + \hat{\mu}_i)^2$ \\
+
+		\textbf{Standardization}: No, standardization also doesn't affect the learning algorithm since it preserves the order.
+		As above, for transformed points, $\bm{x_p'}$, $\bm{x_q'}$ and $\bm{x_r'}$ we see that \\
+		$ \smashoperator{\sum_{i = 1}^{n}} (x_{p,i}' - x_{q, i}')^2 \leq \smashoperator{\sum_{i = 1}^{n}} (x_{p,i}' - x_{r, i}')^2 $\\
+		since, \\
+		$ \smashoperator{\sum_{i = 1}^{n}} (\frac{x_{p,i} - \hat{\mu}_i - x_{q, i} + \hat{\mu}_i}{\sigma_i})^2 
+			\leq \smashoperator{\sum_{i = 1}^{n}} (\frac{x_{p,i} - \hat{\mu}_i - x_{r, i} + \hat{\mu}_i}{\sigma_i})^2$ \\
+
+
         \item[(c)]
+		\textbf{Centering}: No, the transformation does not affect the learning algorithm.
+		The Gini Index uncertainty measure considers the probability distribution of the points with respect to the axis split.\\
+		Centering essentially doesn't affect the algorithm because the axis split undergoes an equivalend transformation, 
+		preserving the distribution with respect to the split. Due to this, the classification still remains the same.\\
+		This can be shown with a simple example for feature $i$. Let $x_i > c$ be one of the axis splits, 
+		which classifies some data points $x_p$, $x_q$, $x_r$, $x_s$ as below:\\
+		$x_{p, i} < x_{q, i} < c < x_{r, i} < x_{s, i}$ for feature $i$\\
+		For the transformed data, $x_i - \mu_i > c$ or $x_i > c + \mu_i$ corresponds to the transformed axis 
+		which preserves the classification since it preserves the inequality.
+
+		\textbf{Standardization}: No, the transformation does not affect the learning algorithm. 
+		From above, we can see that dividing by $\sigma_i$ preserves the inequality.
+		Thus, the distribution for classification remains the same since the particular axis split 
+		will give the same Gini Index uncertainty measure which corresponds to the maximally reduced uncertainty.
+
         \item[(d)]
 \end{itemize}
 \section{Problem 2}{}

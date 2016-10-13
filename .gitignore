@@ -4,7 +4,6 @@
 **/*.log
 **/*.vocab
 **/*.groups
-**/*.txt
 **/*.csv
 **/*.npy
 **/*.pyc
