@@ -13,6 +13,11 @@ def get_data_labels(filename):
     print np.shape(labels)
     return data, labels
 
+def load_data():
+    data = np.load('data.npy')
+    labels = np.load('labels.npy')
+    return data, labels
+
 def tokenize(s):
     return s.split()
 
@@ -24,21 +29,6 @@ def unigram_tf(data, vectorizer):
 def unigram_tf_transform(data, vectorizer):
     tf = vectorizer.transform(data)
     return tf
-
-"""
-def unigram_tfidf(tf):
-    tfidf_transformer = TfidfTransformer(smooth_idf = False)
-    X = tfidf_transformer.fit_transform(tf);
-    idf = tfidf_transformer.idf_
-    log_idf = (idf - 1)/math.log(10);
-    return log_idf
-
-def bigram_tf(data):
-    vectorizer = CountVectorizer(tokenizer = tokenize, ngram_range = (2, 2))
-    tf = vectorizer.fit_transform(data)
-    tokens = vectorizer.get_feature_names()
-    return tf, tokens
-"""
 
 def cross_validate(data, labels, kfolds, n):
     # Size of Test Data
@@ -118,14 +108,7 @@ def online_perceptron_test(testfeatures, testlabels, W, n):
 
 if __name__ == "__main__":
     filename = 'reviews_tr.csv'
-    #data, labels = get_data_labels(filename)
-    #data = data[1:200000]
-    #labels = labels[1:200000]
     print "Loading data ..."
-    data = np.load('data.npy')
-    labels = np.load('labels.npy')
-    labels[labels == 0] = -1
-    # tf, tokens = unigram_tf(data[1:100])
+    data, labels = load_data()
     print "Cross-validating ..."
-    # cross_validate(data[0:10], labels[0:10], 5, 10)
     cross_validate(data, labels, 5, 200000)
