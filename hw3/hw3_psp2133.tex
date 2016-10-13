@@ -97,7 +97,33 @@
 \end{itemize}
 \section{Problem 2}{}
 \begin{itemize}
-	\item[(a)] 
+	\item[(a)]
+		Note: Only the first 200,000 features have been used for this problem.\\
+		\textbf{Fourth feature representation:} \\
+		For this feature, I have ignored all the single letter words, and for the rest the feature is represented by the tf-idf as defined below: \\
+			$tf(w; d) \times (\ln(idf(w;D)) + 1)$ \\
+		where, $tf(w;d)$ and $idf(w;D)$ are as defined in the homework assignment \\
+
+		\textbf{Cross-validation error rates:}\\
+		Averaged-Perceptron:\\
+		The cross-validation error rates for the various representations are as below:\\
+		1. Unigram Representation: Error Rate = 11.2845 \% \\
+		2. Term frequency-inverse document frequency (tf-idf) weighting: Error Rate = 12.4535 \% \\
+		3. Bigram Representation: Error Rate = 11.3489 \% \\
+		4. Fourth feature Representation: Error Rate = 11.5385 \% \\
+		
+		Naive Bayes Classifier:\\
+		The cross-validation error rates for unigram representation is 18.1125 \% \\
+		
+		\textbf{Chosen Procedure:}\\
+		The \textbf{unigram representation with Averaged-Perceptron} was selected as the best classifier based on the above error rates.\\
+
+		\textbf{Error Rates for the chosen classifier:}\\
+		Training Error Rate:\\
+		Test Error Rate:\\
+
+		\textbf{Source code and scripts:}\\
+ 
         \item[(b)] 
 \end{itemize}
 \section{Problem 3}{}

@@ -14,7 +14,7 @@ def get_data_labels(filename):
     labels[labels == 0] = -1
     print np.shape(data)
     print np.shape(labels)
-    return data, labels, len(data)
+    return data, labels, data.shape[0]
 
 def save_data(data, labels, testdata, testlabels):
     np.save('data.npy', data)
@@ -35,7 +35,7 @@ def get_test_data_labels(filename):
     labels[labels == 0] = -1
     print np.shape(data)
     print np.shape(labels)
-    return data, labels, len(data)
+    return data, labels, data.shape[0]
 
 if __name__ == "__main__":
     filename = 'reviews_tr.csv'

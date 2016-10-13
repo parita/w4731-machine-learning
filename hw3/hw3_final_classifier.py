@@ -118,6 +118,9 @@ if __name__ == "__main__":
     filename = 'reviews_tr.csv'
     tfilename = 'reviews_te.csv'
     print "Loading data ..."
-    data, labels, ndata = get_data_labels(filename)
-    testdata, testlabels, ntestdata = get_test_data_labels(tfilename)
+    # data, labels, ndata = get_data_labels(filename)
+    # testdata, testlabels, ntestdata = get_test_data_labels(tfilename)
+    data, labels, testdata, testlabels = load_data()
+    ndata = labels.shape[0]
+    ntestdata = testlabels.shape[0]
     train_and_test_error_rate(data, labels, testdata, testlabels, ndata, ntestdata)
