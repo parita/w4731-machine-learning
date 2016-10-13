@@ -9,8 +9,14 @@ import math
 def get_data_labels(filename):
     data = np.loadtxt(filename, skiprows = 1, delimiter = ',', usecols = [1], dtype = 'S')
     labels = np.loadtxt(filename, skiprows = 1, delimiter = ',', usecols = [0])
+    labels[labels == 0] = -1
     print np.shape(data)
     print np.shape(labels)
+    return data, labels
+
+def load_data():
+    data = np.load('data.npy')
+    labels = np.load('labels.npy')
     return data, labels
 
 def tokenize(s):
@@ -35,13 +41,13 @@ def cross_validate(data, labels, kfolds, n):
     cv = KFold(len(data), n_folds=kfolds, indices=True)
     ifold = 0
     for traincv, testcv in cv:
+        print "Fold", ifold
         err_fold = 0
         vectorizer = CountVectorizer(tokenizer = tokenize, ngram_range = (2, 2))
         # Compute Features
         print "Computing Features ..."
         tf, tokens = bigram_tf(data[traincv], vectorizer)
 
-        print "Fold", ifold
         # Train for Averaged Online Perceptron
         W = online_perceptron_train(tf, labels[traincv], trsize, len(tokens))
         
@@ -103,13 +109,8 @@ def online_perceptron_test(testfeatures, testlabels, W, n):
 
 if __name__ == "__main__":
     filename = 'reviews_tr.csv'
-    #data, labels = get_data_labels(filename)
-    #data = data[1:200000]
-    #labels = labels[1:200000]
     print "Loading data ..."
-    data = np.load('data.npy')
-    labels = np.load('labels.npy')
-    labels[labels == 0] = -1
+    data, labels = load_data()
+    ndata = data.shape[0]
     print "Cross-validating ..."
-    # cross_validate(data[0:10], labels[0:10], 5, 10)
-    cross_validate(data, labels, 5, 200000)
+    cross_validate(data, labels, 5, ndata)

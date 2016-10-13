@@ -124,5 +124,6 @@ if __name__ == "__main__":
     filename = 'reviews_tr.csv'
     print "Loading data ..."
     data, labels = load_data()
+    ndata = data.shape[0]
     print "Cross-validating ..."
-    cross_validate(data, labels, 5, 200000)
+    cross_validate(data, labels, 5, ndata)
