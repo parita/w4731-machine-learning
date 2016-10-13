@@ -1,0 +1,83 @@
+Problem 2
+=========
+Note: Only the first 200,000 features have been used for this problem.
+
+Fourth feature representation:
+-----------------------------
+  For this feature, I have ignored all the single letter words, and for the rest the
+  feature is represented by the tf-idf as defined below:
+    tf (w; d) × (ln(idf (w; D)) + 1)
+  where, tf (w; d) and idf (w; D) are as defined in the homework assignment
+
+Cross-validation error rates:
+----------------------------
+  Averaged-Perceptron:
+  The cross-validation error rates for the various representations are as below:
+  1. Unigram Representation: Error Rate = 11.2845 %
+  2. Term frequency-inverse document frequency (tf-idf) weighting: Error Rate = 12.4535 %
+  3. Bigram Representation: Error Rate = 11.3489 %
+  4. Fourth feature Representation: Error Rate = 11.5385 %
+
+  Naive Bayes Classifier:
+  The cross-validation error rates for unigram representation is 18.1125 %
+
+Chosen Procedure:
+----------------
+  The unigram representation with Averaged-Perceptron was selected as
+  the best classifier based on the above error rates.
+
+Error Rates for the chosen classifier:
+-------------------------------------
+  Training Error Rate: 10.3595 %
+  Test Error Rate: 11.1101392594 %
+
+Source code and scripts:
+-----------------------
+  1. hw3_preprocess.py: This code must be run first. It forms the datasets and
+saves them as .npy files to make the loading faster.
+  2. hw3_avg_perceptron_1_unigram.py: Main code for getting cross-validation
+error rate for Avergaged-Perceptron with Unigram representation.
+  3. hw3_avg_perceptron_2_tfidf.py: Main code for getting cross-validation er-
+ror rate for Averaged-Perceptron with tf-idf representation.
+  4. hw3_avg_perceptron_3_bigram.py: Main code for getting cross-validation
+error rate for Averaged-Perceptron with bigram tf representation.
+  5. hw3_avg_perceptron_4.py: Main code for getting cross-validation error rate
+for the fourth representation.
+  6. hw3_naive_bayes_unigram.py: Main code for getting cross-validation errro
+rate for Bayes Classifier with unigram representation.
+  7. hw3_final_classifier.py: Final classifier hardcoded to Averaged Perceptron
+using unigram representation.
+
+Packages used from sklearn:[1,2,3]
+  sklearn.feature_extraction.text.CountVectorizer
+  sklearn.feature_extraction.text.TfidfVectorizer
+  sklearn.feature_extraction.text.TfidfTransformer
+  sklearn.cross_validation.KFold
+  sklearn.naive_bayes.MultinomialNB
+
+Additional packages:
+  scipy.sparse.csr_matrix[4]
+  random.shuffle
+
+Running Instructions:
+====================
+Execute the instructions as below:
+
+python hw3_preprocess.py
+python hw3_avg_perceptron_1_unigram.py
+python hw3_avg_perceptron_2_tfidf.py
+python hw3_avg_perceptron_3_bigram.py
+python hw3_avg_perceptron_4.py
+python hw3_naive_bayes_unigram.py
+python hw3_final_classifier.py
+
+References:
+==========
+[1] http://scikit-learn.org/stable/modules/classes.html#
+module-sklearn.feature\_extraction.text
+[2] http://scikit-learn.org/0.17/modules/generated/sklearn.cross\
+_validation.KFold.html
+[3] http://scikit-learn.org/stable/modules/generated/sklearn.
+naive\_bayes.MultinomialNB.html
+[4] http://docs.scipy.org/doc/scipy/reference/generated/scipy.
+sparse.csr\_matrix.html

@@ -96,43 +96,51 @@
 
 \end{itemize}
 \section{Problem 2}{}
-\begin{itemize}
-	\item[(a)]
-		Note: Only the first 200,000 features have been used for this problem.\\
-		\textbf{Fourth feature representation:} \\
-		For this feature, I have ignored all the single letter words, and for the rest the feature is represented by the tf-idf as defined below: \\
-			$tf(w; d) \times (\ln(idf(w;D)) + 1)$ \\
-		where, $tf(w;d)$ and $idf(w;D)$ are as defined in the homework assignment \\
+	Note: Only the first 200,000 features have been used for this problem.\\
+	\textbf{Fourth feature representation:} \\
+	For this feature, I have ignored all the single letter words, and for the rest the feature is represented by the tf-idf as defined below: \\
+		$tf(w; d) \times (\ln(idf(w;D)) + 1)$ \\
+	where, $tf(w;d)$ and $idf(w;D)$ are as defined in the homework assignment \\
+	\\
+	\textbf{Cross-validation error rates:}\\
+	Averaged-Perceptron:\\
+	The cross-validation error rates for the various representations are as below:\\
+	1. Unigram Representation: Error Rate = 11.2845 \% \\
+	2. Term frequency-inverse document frequency (tf-idf) weighting: Error Rate = 12.4535 \% \\
+	3. Bigram Representation: Error Rate = 11.3489 \% \\
+	4. Fourth feature Representation: Error Rate = 11.5385 \% \\
+	\\
+	Naive Bayes Classifier:\\
+	The cross-validation error rates for unigram representation is 18.1125 \% \\
+	\\
+	\textbf{Chosen Procedure:}\\
+	The $\textbf{unigram representation with Averaged-Perceptron}$ was selected as the best classifier based on the above error rates.\\
+	\\
+	\textbf{Error Rates for the chosen classifier:}\\
+	Training Error Rate: 10.3595 \%\\
+	Test Error Rate: 11.1101392594 \%\\
+	\\
+	\textbf{Source code and scripts:}\\
+	1. \textit{hw3\_preprocess.py}: This code must be run first. It forms the datasets and saves them as .npy files to make the loading faster.\\
+	2. \textit{hw3\_avg\_perceptron\_1\_unigram.py}: Main code for getting cross-validation error rate for Avergaged-Perceptron with Unigram representation.\\
+	3. \textit{hw3\_avg\_perceptron\_2\_tfidf.py}: Main code for getting cross-validation error rate for Averaged-Perceptron with tf-idf representation.\\
+	4. \textit{hw3\_avg\_perceptron\_3\_bigram.py}: Main code for getting cross-validation error rate for Averaged-Perceptron with bigram tf representation.\\
+	5. \textit{hw3\_avg\_perceptron\_4.py}: Main code for getting cross-validation error rate for the fourth representation.\\
+	6. \textit{hw3\_naive\_bayes\_unigram.py}: Main code for getting cross-validation errro rate for Bayes Classifier with unigram representation.\\
+	7. \textit{hw3\_final\_classifier.py}: Final classifier hardcoded to Averaged Perceptron using unigram representation.\\
+	8. README: Problem 2 details are listed there as well just as above.\\
+	\\
+	Packages used from sklearn:[3,4,5]\\
+	\textit{sklearn.feature\_extraction.text.CountVectorizer}\\
+	\textit{sklearn.feature\_extraction.text.TfidfVectorizer}\\
+	\textit{sklearn.feature\_extraction.text.TfidfTransformer}\\
+	\textit{sklearn.cross\_validation.KFold}\\
+	\textit{sklearn.naive\_bayes.MultinomialNB}\\
+	\\
+	Additional packages:\\
+	\textit{scipy.sparse.csr\_matrix}[6]\\
+	\textit{random.shuffle}\\
 
-		\textbf{Cross-validation error rates:}\\
-		Averaged-Perceptron:\\
-		The cross-validation error rates for the various representations are as below:\\
-		1. Unigram Representation: Error Rate = 11.2845 \% \\
-		2. Term frequency-inverse document frequency (tf-idf) weighting: Error Rate = 12.4535 \% \\
-		3. Bigram Representation: Error Rate = 11.3489 \% \\
-		4. Fourth feature Representation: Error Rate = 11.5385 \% \\
-		
-		Naive Bayes Classifier:\\
-		The cross-validation error rates for unigram representation is 18.1125 \% \\
-		
-		\textbf{Chosen Procedure:}\\
-		The $\textbf{unigram representation with Averaged-Perceptron}$ was selected as the best classifier based on the above error rates.\\
-
-		\textbf{Error Rates for the chosen classifier:}\\
-		Training Error Rate: 10.3595 \%\\
-		Test Error Rate: 11.1101392594 \%\\
-
-		\textbf{Source code and scripts:}\\
-		1. \textit{hw3\_preprocess.py}: This code must be run first. It forms the datasets and saves them as .npy files to make the loading faster.\\
-		2. \textit{hw3\_avg\_perceptron\_1\_unigram.py}: Main code for getting cross-validation error rate for Avergaged-Perceptron with Unigram representation.\\
-		3. \textit{hw3\_avg\_perceptron\_2\_tfidf.py}: Main code for getting cross-validation error rate for Averaged-Perceptron with tf-idf representation.\\
-		4. \textit{hw3\_avg\_perceptron\_3\_bigram.py}: Main code for getting cross-validation error rate for Averaged-Perceptron with bigram tf representation.\\
-		5. \textit{hw3\_avg\_perceptron\_4.py}: Main code for getting cross-validation error rate for the fourth representation.\\
-		6. \textit{hw3\_naive\_bayes\_unigram.py}: Main code for getting cross-validation errro rate for Bayes Classifier with unigram representation.\\
-		7. \textit{hw3\_final\_classifier.py}: Final classifier hardcoded to Averaged Perceptron using unigram representation.\\
-		8. README: Problem 2 details are listed there as well just as above.\\
- 
-\end{itemize}
 \section{Problem 3}{}
 \begin{itemize}
         \item[(a)]
@@ -211,6 +219,9 @@
 \begin{thebibliography}{99}
         \bibitem{[1]} \url{https://www.math.uwaterloo.ca/~hwolkowi/matrixcookbook.pdf}
         \bibitem{[2]} \url{http://cs229.stanford.edu/section/gaussians.pdf}
-
+        \bibitem{[3]} \url{http://scikit-learn.org/stable/modules/classes.html#module-sklearn.feature\_extraction.text}
+        \bibitem{[4]} \url{http://scikit-learn.org/0.17/modules/generated/sklearn.cross\_validation.KFold.html}
+        \bibitem{[5]} \url{http://scikit-learn.org/stable/modules/generated/sklearn.naive\_bayes.MultinomialNB.html}
+        \bibitem{[6]} \url{http://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.csr\_matrix.html}
 \end{thebibliography}
 \end{document}
