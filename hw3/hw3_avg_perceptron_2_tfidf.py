@@ -9,8 +9,14 @@ import math
 def get_data_labels(filename):
     data = np.loadtxt(filename, skiprows = 1, delimiter = ',', usecols = [1], dtype = 'S')
     labels = np.loadtxt(filename, skiprows = 1, delimiter = ',', usecols = [0])
+    labels[labels == 0] = -1
     print np.shape(data)
     print np.shape(labels)
+    return data, labels
+
+def load_data():
+    data = np.load('data.npy')
+    labels = np.load('labels.npy')
     return data, labels
 
 def tokenize(s):
@@ -78,7 +84,7 @@ def online_perceptron_train(tf, logidf, y, n, d):
             print "Processing", count
         count = count + 1
         xtf = tf.getrow(i).toarray()
-        x = xtf.flatten() * logidf
+        x = xtf.flatten() * logidf # tf-idf = tf x log10(idf)
         x = np.append(x, 1)
         if (wt.dot(x)*y[i] <= 0):
             wt = wt + y[i]*x
@@ -92,7 +98,7 @@ def online_perceptron_train(tf, logidf, y, n, d):
             print "Processing", count
         count = count + 1
         xtf = tf.getrow(i).toarray()
-        x = xtf.flatten() * logidf
+        x = xtf.flatten() * logidf # tf-idf = tf x log10(idf)
         x = np.append(x, 1)
         if (wt.dot(x)*y[i] <= 0):
             wt = wt + y[i]*x
@@ -107,7 +113,7 @@ def online_perceptron_test(test_tf, test_logidf, testlabels, W, n):
         if (i % 5000 == 0):
             print "Testing", i
         xtf = test_tf.getrow(i).toarray()
-        x = xtf.flatten() * test_logidf
+        x = xtf.flatten() * test_logidf # tf-idf = tf x log10(idf)
         x = np.append(x, 1)
         y = testlabels[i]
         if (np.dot(W, x)*y <= 0):
@@ -116,14 +122,7 @@ def online_perceptron_test(test_tf, test_logidf, testlabels, W, n):
 
 if __name__ == "__main__":
     filename = 'reviews_tr.csv'
-    #data, labels = get_data_labels(filename)
-    #data = data[1:200000]
-    #labels = labels[1:200000]
     print "Loading data ..."
-    data = np.load('data.npy')
-    labels = np.load('labels.npy')
-    labels[labels == 0] = -1
-    # tf, tokens = unigram_tf(data[1:100])
+    data, labels = load_data()
     print "Cross-validating ..."
-    # cross_validate(data[0:10], labels[0:10], 5, 10)
     cross_validate(data, labels, 5, 200000)
