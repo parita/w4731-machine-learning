@@ -18,10 +18,10 @@ function hw4_p2b(data, labels, n)
 end
 
 function hw4_p2c(data, labels, n)
-	plot_data(data, labels);
+	% plot_data(data, labels);
 	% Scale data for each feature
 	data = transform_data(data);
-	plot_data(data, labels);
+	% plot_data(data, labels);
 	% Lift data to make the problem homogenous
 	data = [data, ones(size(data, 1), 1)];
 	beta = zeros(size(data, 2), 1);
@@ -42,7 +42,8 @@ function hw4_p2d(data, labels, n)
 	init_step_size = 1;
 	err_tol = 0.99;
 	gradient_descent_mod(ndata, nlabels, ntestdata, ntestlabels, ...
-				 beta, n, err_tol, init_step_size);
+				beta, ndata_size, ntestdata_size, ...
+				err_tol, init_step_size);
 
 	disp('Part 2: Run modified gradient descent with transformed data')
 	% Transform data and apply modified gradient descent
@@ -59,13 +60,14 @@ function hw4_p2d(data, labels, n)
 	init_step_size = 1;
 	err_tol = 0.99;
 	gradient_descent_mod(ndata, nlabels, ntestdata, ntestlabels, ...
-				 beta, n, err_tol, init_step_size);
+			 	beta, ndata_size, ntestdata_size, ...
+				err_tol, init_step_size);
 end
 
 function [ndata, nlabels, ntestdata, ntestlabels, ndata_size, ntestdata_size] = ...
 	split_data(data, labels, n, fraction)
 	% Segregate data into training and hold-out set
-	ndata_size = int32(n*fraction);
+	ndata_size = floor(n*fraction);
 	ntestdata_size = n - ndata_size;
 	ndata = data(1:ndata_size, :);
 	nlabels = labels(1:ndata_size, :);
@@ -92,7 +94,7 @@ function gradient_descent(x, y, b, n, tol, eta)
 	beta = b
 end
 
-function gradient_descent_mod(x, y, test_x, test_y, b, n, err_tol, eta)
+function gradient_descent_mod(x, y, test_x, test_y, b, n_tr, n_te, err_tol, eta)
 	iter = 0;
 	err_rate = 0;
 	best_err_rate = inf;
@@ -100,12 +102,12 @@ function gradient_descent_mod(x, y, test_x, test_y, b, n, err_tol, eta)
 		bx = x*b;
 		L = (1./(1 + exp(-bx))) - y;
 		L = kron(ones(1, size(x, 2)), L);
-		del = 1./n.*sum(L.*x)';
-		eta1 = line_search(x, y, b, del, n, 1);
+		del = 1./n_tr.*sum(L.*x)';
+		eta1 = line_search(x, y, b, del, n_tr, 1);
 		b = b - eta1.*del;
 		if (floor(log2(iter)) == log2(iter))
-			obj = f(x, y, b, n);
-			err_rate = compute_error(test_x, test_y, b);
+			obj = f(x, y, b, n_tr);
+			err_rate = compute_error(test_x, test_y, n_te, b);
 			if(iter > 32 && err_rate > err_tol*best_err_rate )
 				break;
 			end
@@ -115,17 +117,17 @@ function gradient_descent_mod(x, y, test_x, test_y, b, n, err_tol, eta)
 		end
 		iter = iter + 1;
 	end
-	iterations = iter
-	beta = b
+	final_obj = f(x, y, b, n_tr)
+	iterations = iter	
 	err_rate
 end
 
-function err_rate = compute_error(test_x, test_y, b)
+function err_rate = compute_error(test_x, test_y, n_te, b)
 	pred = zeros(size(test_y));
 	bx = test_x*b;
 	pred(bx <= 0) = 0;
 	pred(bx > 0) = 1;
-	err_rate = sum(pred ~= test_y)./size(test_x, 1)*100;
+	err_rate = sum(pred ~= test_y)./n_te*100;
 end
 function eta = line_search(x, y, b, del, n, eta)
 	fb_del = f(x, y, b - eta.*del, n);
