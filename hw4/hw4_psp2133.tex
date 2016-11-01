@@ -1,0 +1,237 @@
+\documentclass[fleqn]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{dsfont}
+\usepackage{bm}
+\usepackage{mathtools}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
+\usepackage{fontspec}
+\usepackage{url}
+
+\title{Machine Learning - Homework 4}
+\author{Parita Pooj (psp2133)}
+\date{October 31, 2016}
+
+\newcommand\tab[1][0.6cm]{\hspace*{#1}}
+
+\makeatletter
+\def\BState{\State\hskip-\ALG@thistlm}
+\makeatother
+
+\begin{document}
+\maketitle
+\setcounter{secnumdepth}{0}
+\section{Problem 1}{}
+\begin{itemize}
+        \item[(a)]
+		Let $L(\bm{w})$ be the objective function we are trying to minimize:
+		\[
+			L(\bm{w}) = \frac{\lambda}{2} \|\bm{w}\|^2 + \frac{1}{|S|} \smashoperator{\sum_{(\bm{x}, y) \in S}} (\langle \bm{w}, \bm{x} \rangle - y)^2
+		\]
+
+		\[
+			L(\bm{w}) = \frac{\lambda}{2} \bm{w}^T\bm{w} + \frac{1}{|S|} \smashoperator{\sum_{(\bm{x}, y) \in S}} (\langle \bm{w}, \bm{x} \rangle^2 - 2\langle \bm{w}, \bm{x} \rangle y + y^2)
+		\]
+
+		Gradient:
+		\[
+			\frac{\partial L}{\partial \bm{w}} = \lambda \bm{w} + \frac{2}{|S|} \smashoperator{\sum_{(\bm{x}, y) \in S}} (\bm{x}\bm{x}^T\bm{w} - y\bm{x})
+		\]
+
+		Hessian:
+		\[
+			\frac{\partial^2 L}{\partial \bm{w} \partial \bm{w}^T} = \lambda I + \frac{2}{|S|} \smashoperator{\sum_{(\bm{x}, y) \in S}} \bm{x}\bm{x}^T
+		\]
+		where $I$ is an identity matrix of size $d \times d$
+		From above we know that:\\
+			$\lambda I$ is positive semidefinite\\
+			$\bm{x}\bm{x}^T$ is positive semidefinite\\
+			Also, the sum of positive semidefinite matrices is also positive semidefinite.\\
+		From this, it implies that the hessian of the objective function is positive semidefinite and hence, convex.\\
+		Thus we can say that this is a convex optimization problem considering that it does not have any more constraints.\\
+
+        \item[(b)]
+	With the gradient calculation as given above:
+	Gradient:
+		\[
+			\frac{\partial L}{\partial \bm{w}} = \lambda \bm{w} + \frac{2}{|S|} \smashoperator{\sum_{(\bm{x}, y) \in S}} (\bm{x}\bm{x}^T\bm{w} - 2y\bm{x})
+		\]
+	we can write the gradient descent algorithm for the given optimization problem as below:\\
+
+	\begin{algorithm}[H]
+	\caption{Problem 1: Gradient Descent}
+	\begin{algorithmic}[1]
+	\Procedure{gradient\_descent}{$\bm{x}, y, \bm{w}, \bm{\eta}, N, \lambda$}{}
+	\State $t \gets 1$
+	\State $\bm{w}^{(t)} \gets \bm{0}$
+	\For{$t = 1, 2, 3, \dots, N$}
+		\State $\bigtriangledown \gets$ \Call{compute\_gradients}{$\bm{x}, y, \bm{w}^{(t)}, \lambda$}
+		\State $\bm{w}^{(t+1)} = \bm{w}^{(t)} - \eta_t \bigtriangledown$; \Comment{Update weight vector}
+		\State $t \gets t + 1$
+	\EndFor
+	\State \textbf{return} \bm{w} \Comment{The final weight vector for the classifier} 
+	\EndProcedure
+	\\
+	\Procedure{compute\_gradients}{$\bm{x}, y, \bm{w}, \lambda$}
+	\State $n \gets$ |S| \Comment{Number of data points = cardinality of $S$}
+	\State $\bigtriangledown \gets \lambda \bm{w} + \frac{2}{n} \smashoperator{\sum_{i = 1}^{n}} \{ \langle \bm{w}, \bm{x}_i \rangle \bm{x}_i - y_i \bm{x}_i \}$
+			\Comment{Gradient Computation}
+	\State \textbf{return} \bigtriangledown
+	\EndProcedure
+	\end{algorithmic}
+	\end{algorithm}
+
+	\item[(c)] The constraint:\\
+		$w_i^2 \leq 1$ for all $i = 1, 2, 3, \dots, d.$\\
+		can be written as:\\
+		$w_i^2 - 1 \leq 0$ for all $i = 1, 2, 3, \dots, d.$\\
+		This function is a quadratic function which represents a convex set where each feature is less than or equal to one.\\
+		If we consider the second derivative for each $i$, we can see that we get a positive result which implies that the function is convex\\
+		If this is written as a vector as well for $R^d$, we get the hessian as $2I$ which we know is positive semidefinite.\\
+		Thus, the function is convex and hence, the optimization problem remains convex with the addition of this constraint.\\
+
+        \item[(d)]
+		The constraint:\\
+		$w_{2i - 1} = 1 - w_{2i}$ for all $i = 1, 2, 3, \dots, d.$\\
+		can be written as:\\
+		$w_{2i - 1} + w_{2i} - 1 \leq 0$ for all $i = 1, 2, 3, \dots, d.$\\
+		$1 - w_{2i - 1} - w_{2i} \leq 0$ for all $i = 1, 2, 3, \dots, d.$\\
+		Both of the above equations represent the equation of a hyperplane in d-dimensional space. We know that a line, plane or a hyperplane is always convex.\\
+		Thus, both the above functions are convex and hence, the optimization problem is still convex.\\
+	\item[(e)] The constraint:\\
+		$w_i^2 = 1$ for all $i = 1, 2, 3, \dots, d.$\\
+		can be written as:\\
+		$w_i^2 - 1 \leq 0$ for all $i = 1, 2, 3, \dots, d.$\\
+		$1 - w_i^2 \leq 0$ for all $i = 1, 2, 3, \dots, d.$\\
+		Here, the first equation is convex but the second isn't.
+		This is because the Hessian for the first equation will be I, and the Hessian for the second equation will be -I.\\
+		This can also be looked at by considering that a set of points such that $w_i = \pm1$ will not form a convex set.\\
+		Thus, one of the two additional constraints is convex and with this constraint, the optimization problem will not remain convex.
+\end{itemize}
+\section{Problem 2}{}
+\begin{itemize}
+	\item[(a)]
+	Let $\bm{w}$ be $[\bm{\beta}, \beta_0]$ and $\bm{x}_i$ for all $i = 1, 2, \dots, n$ transform to $\bm{x}_i = [\bm{x}_i, 1]$\\
+	The above is based on the lifting trick.\\
+	Thus, the optimization problem becomes:
+	\[
+		\min_{\bm{w} \in \mathbb{R}^{d+1}}
+			\frac{1}{n} \smashoperator{\sum_{i = 1}^{n}}
+				\{\ln(1 + \exp(\langle \bm{w}, \bm{x}_i \rangle) - y_i \langle \bm{w}, \bm{x}_i \rangle\}
+	\]
+	Gradient of the objective function can be written as:\\
+	\[
+		\bigtriangledown = \frac{1}{n} \smashoperator{\sum_{i=1}^{n}} \frac{\exp(\langle \bm{w}, \bm{x}_i \rangle)}
+										  {1 + \exp(\langle \bm{w}, \bm{x}_i \rangle)} \bm{x}_i - y_i \bm{x}_i
+	\]
+
+	\[
+		\bigtriangledown = \frac{1}{n} \smashoperator{\sum_{i=1}^{n}} \frac{1}
+										  {1 + \exp(-\langle \bm{w}, \bm{x}_i \rangle)} \bm{x}_i - y_i \bm{x}_i
+	\]
+	Thus, for every iteration $t$ of gradient descent, we update $\bm{w}$ as below:\\
+	\[\bm{w}^{(t+1)} = \bm{w}^{(t)} - \eta_t\bigtriangledown\]
+	Thus, we have:
+	\[
+		\bm{w}^{(t+1)} = \bm{w}^{(t)} - \eta_t
+					\frac{1}{n} \smashoperator{\sum_{i=1}^{n}}
+					\frac{1}{1 + \exp(-\langle \bm{w}, \bm{x}_i \rangle)} \bm{x}_i - y_i \bm{x}_i
+	\]
+
+	With this, we can write the pseudocode as below:\\
+	\begin{algorithm}[H]
+	\caption{Problem 2: Gradient Descent}
+	\begin{algorithmic}
+		\Procedure{gradient\_descent}{$\bm{x}, y, \bm{w}, \bm{\eta}, N$}{}
+		\State $t \gets 1$
+		\State $\bm{w}^{(t)} \gets \bm{0}$
+		\For{$t = 1, 2, 3, \dots, N$}
+			\State $\lambda \gets$ \Call{compute\_gradients}{$\bm{x}, y, \bm{w}^{(t)}$}
+			\State $\bm{w}^{(t+1)} = \bm{w}^{(t)} - \eta_t \lambda$; \Comment{Update weight vector}
+			\State $t \gets t + 1$
+		\EndFor
+		\State \textbf{return} \bm{w} \Comment{The final weight vector for the classifier} 
+		\EndProcedure
+	\\
+		\Procedure{compute\_gradients}{$\bm{x}, y, \bm{w}$}
+		\State $n \gets$ \textit{number of data points} \Comment{The size of $\bm{x}$}
+		\State $\lambda \gets \frac{1}{n} \smashoperator{\sum_{i = 1}^{n}}
+				\{ \frac{1}{1 + \Call{exp}{-\langle \bm{w}, \bm{x}_i \rangle}} \bm{x}_i - y_i \bm{x}_i \}$
+				\Comment{Gradient Computation}
+		\State \textbf{return} \lambda
+		\EndProcedure
+	\end{algorithmic}
+	\end{algorithm}
+
+	\item[(b)]
+	Code for gradient descent algorithm implemented in file: \textit{hw2\_p2b.m}\\
+	The algorithm stops after $\sim$4658 iterations.\\
+	It stops with the final objective value of 0.650639998712717\\
+	The final weight vector is as below:\\
+	\[\beta_0 = -0.957915500965539\]\\
+	\[
+	\bm{\beta} =
+		\begin{bmatrix}
+		-0.007426394047568\\
+		2.095272030923660\\
+		-0.001124127969434
+		\end{bmatrix}
+	\]
+
+	\item[(c)]
+	Code for gradient descent algorithm implemented in file: \textit{hw2\_p2b.m}\\
+	The algorithm stops after $\sim$377 iterations.\\
+	It stops with the final objective value of 0.650639985720403\\
+	The final weight vector is as below:\\
+	\[\beta_0 = -0.955376722802542\]\\
+	\[
+	\bm{\beta} =
+		\begin{bmatrix}
+		-0.153439800249147\\
+		2.099782135695885\\
+		-0.027573523361225]
+		\end{bmatrix}
+	\]
+
+	By plotting the data, we observe that the features 1, 3 range from from 0.0 to 1.0 approximately, while the feature 2 ranges from 0.0 to 20.0 approximately.\\
+	For gradient descent, we can scale the data so that the gradients computed are normalized and 
+	hence, we move in the direction of gradient faster, without approaching a zig-zag path.\\
+	If we look at the gradient computation for our objective function, we see that it is a sum of scaled data points. 
+	Thus, if the data points are normalized, the gradient vector have normalized features and hence, will point towards 
+	descent faster.\\
+	This can be visually depicted by showing the objective function which initially mapped as an elipse, 
+	where we moved along a zig-zag path. With normalization, the ellipse becomes circular, with gradient 
+	vectors pointing towards the minimum while following an almost straight line path.\\
+
+	The $A$ matrix used to scale data is given as below:\\
+	\[
+	A =
+	\begin{bmatrix}
+		0.050016536494057 & 0 & 0\\
+		0 & 1.000207478593686 & 0\\
+		0 & 0 & 0.050027566620478\\
+	\end{bmatrix}
+	\]
+
+	\item[(d)]
+	Code for gradient descent algorithm implemented in file: \textit{hw2\_p2d.m}\\
+	\textbf{Part 1: Original Data}\\
+	(1) Number of iterations: 512\\
+	(2) Final objective value: 0.655069623459742\\
+	(3) Final hold-out error rate: 38.292682926829272 \%\\
+	\\
+	\textbf{Part 2: Transformed Data}\\
+	(1) Number of iterations: 32\\
+	(2) Final objective value: 0.664759252137848\\
+	(3) Final hold-out error rate: 37.926829268292686 \%\\
+	\\
+
+\end{itemize}
+\begin{thebibliography}{99}
+        \bibitem{[1]} \url{https://www.math.uwaterloo.ca/~hwolkowi/matrixcookbook.pdf}
+\end{thebibliography}
+\end{document}
