@@ -95,7 +95,7 @@ function gradient_descent(x, y, b, n, tol, eta)
 end
 
 function gradient_descent_mod(x, y, test_x, test_y, b, n_tr, n_te, err_tol, eta)
-	iter = 0;
+	iter = 1;
 	err_rate = 0;
 	best_err_rate = inf;
 	while 1
@@ -108,7 +108,7 @@ function gradient_descent_mod(x, y, test_x, test_y, b, n_tr, n_te, err_tol, eta)
 		if (floor(log2(iter)) == log2(iter))
 			obj = f(x, y, b, n_tr);
 			err_rate = compute_error(test_x, test_y, n_te, b);
-			if(iter > 32 && err_rate > err_tol*best_err_rate )
+			if(iter >= 32 && err_rate > err_tol*best_err_rate )
 				break;
 			end
 			if err_rate < best_err_rate
@@ -117,6 +117,7 @@ function gradient_descent_mod(x, y, test_x, test_y, b, n_tr, n_te, err_tol, eta)
 		end
 		iter = iter + 1;
 	end
+	beta = b
 	final_obj = f(x, y, b, n_tr)
 	iterations = iter	
 	err_rate
@@ -124,11 +125,16 @@ end
 
 function err_rate = compute_error(test_x, test_y, n_te, b)
 	pred = zeros(size(test_y));
-	bx = test_x*b;
-	pred(bx <= 0) = 0;
-	pred(bx > 0) = 1;
+	bx = logistic(test_x*b);
+	pred(bx <= 0.5) = 0;
+	pred(bx > 0.5) = 1;
 	err_rate = sum(pred ~= test_y)./n_te*100;
 end
+
+function val = logistic(z)
+	val = 1./(1 + exp(-z));
+end
+
 function eta = line_search(x, y, b, del, n, eta)
 	fb_del = f(x, y, b - eta.*del, n);
 	fb = f(x, y, b, n);
@@ -169,6 +175,6 @@ function x_T = transform_data(x)
 	x1_max = max(x(:, 1));
 	x2_max = max(x(:, 2));
 	x3_max = max(x(:, 3));
-	A = [1/x1_max, 0, 0; 0, 1/x2_max, 0; 0, 0, 1/x3_max];
+	A = [1/x1_max, 0, 0; 0, 1/x2_max, 0; 0, 0, 1/x3_max]
 	x_T = x*A;
 end
