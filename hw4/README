@@ -1,0 +1,7 @@
+Files:
+=====
+Main script to run: hw4.m
+Code for gradient descent for Problem 2(b) and 2(c): hw4_p2b.m
+Code for gradient descent for Problem 2(d): hw4_p2d.m
+
+To test, simply run hw4.m
