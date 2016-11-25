@@ -1,0 +1,2 @@
+http://math.stackexchange.com/questions/37398/what-is-the-geometric-interpretation-of-the-transpose
+http://math.stackexchange.com/questions/508412/optimal-solution-for-expected-absolute-loss-function
