@@ -1,0 +1,7 @@
+Homework 5:
+P2(b): MAE = 0.2581 (used hw4 code, no citations needed)
+P3(b):
+1. Test averaged square loss of OLS estimator: 24.4066
+2. Test averaged square loss of the sparse linear predictor (CoSaMP): 30.5237
+3. 'CRIM'    'AGE'    'MEDV'
+4. Toolbox from https://www.mathworks.com/matlabcentral/fileexchange/32402-cosamp-and-omp-for-sparse-recovery

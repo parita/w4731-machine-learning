@@ -1,4 +1,4 @@
-function hw5_p2b(data, labels, n, tol)
+function mae = hw5_p2b(data, labels, n, tol)
 	% Lift data to make the problem homogenous
 	data = [data, ones(size(data, 1), 1)];
 	beta = zeros(size(data, 2), 1);
