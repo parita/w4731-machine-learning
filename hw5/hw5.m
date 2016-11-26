@@ -20,10 +20,10 @@ function error = ols(data, labels, testdata, testlabels, n)
 end
 
 function error = sparselsq(data, labels, testdata, testlabels, n, k)
-    features = {'CRIM', 'ZN', 'INDUS', 'CHAS', ...
+    features = {'Threshold', 'CRIM', 'ZN', 'INDUS', 'CHAS', ...
                 'NOX', 'RM', 'AGE', 'DIS', 'RAD', ...
-                'TAX', 'PTRATIO', 'B', 'LSTAT', 'MEDV'};
-    w = CoSaMP(data, labels, k);
+                'TAX', 'PTRATIO', 'B', 'LSTAT'};
+    w = OMP(data, labels, k + 1);
     idx = find(w ~= 0);
     features(idx)
     E = testlabels - testdata*w;
