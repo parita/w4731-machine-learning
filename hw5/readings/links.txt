@@ -1,2 +1,5 @@
 http://math.stackexchange.com/questions/37398/what-is-the-geometric-interpretation-of-the-transpose
 http://math.stackexchange.com/questions/508412/optimal-solution-for-expected-absolute-loss-function
+
+https://blog.scrapinghub.com/2014/03/26/optimizing-memory-usage-of-scikit-learn-models-using-succinct-tries/
+https://blog.scrapinghub.com/2014/03/26/optimizing-memory-usage-of-scikit-learn-models-using-succinct-tries/
