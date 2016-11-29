@@ -1,5 +1,5 @@
 Homework 5:
-P2(b): MAE = 0.2581 (used hw4 code, no citations needed)
+P2(b): MAE = 0.0390 (used hw4 code, no citations needed)
 P3(b):
 1. Test averaged square loss of OLS estimator: 24.4066
 2. Test averaged square loss of the sparse linear predictor (OMP): 36.0452

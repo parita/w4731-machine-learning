@@ -2,7 +2,7 @@ function hw5()
 	load('hw5data')
 	n = size(data, 1);
 	disp('Running Problem 2(b) ...')
-	error = hw5_p2b(data, labels, n, 0.50317)
+	error = hw5_p2b(data, labels, testdata, testlabels, n, 0.50317)
     clear all;
     disp('Running Problem 3(b.1) ...')
     load('Housing');

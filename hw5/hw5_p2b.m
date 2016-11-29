@@ -1,11 +1,13 @@
-function mae = hw5_p2b(data, labels, n, tol)
+function mae = hw5_p2b(data, labels, testdata, testlabels, n, tol)
 	% Lift data to make the problem homogenous
 	data = [data, ones(size(data, 1), 1)];
+    testdata = [testdata, ones(size(testdata, 1), 1)];
 	beta = zeros(size(data, 2), 1);
 	init_step_size = 1;
 	beta = gradient_descent(data, labels, beta, n, tol, init_step_size);
+    n = size(testdata, 1);
     k = 128;
-    mae = MAE(P(data, labels, beta, n/k), Pi(labels, n, k), n/k)
+    mae = MAE(P(testdata, testlabels, beta, n/k), Pi(testlabels, n, k), n/k)
 end
 
 function beta = gradient_descent(x, y, b, n, tol, eta)
